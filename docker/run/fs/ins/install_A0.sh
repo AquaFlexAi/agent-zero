@@ -35,6 +35,16 @@ fi
 # pip install torch --index-url https://download.pytorch.org/whl/cpu
 
 # Install remaining A0 python packages
+# Deep Fix: Handle openai-whisper build issues on Kali/Python 3.12
+echo "Installing build dependencies..."
+pip install --upgrade pip "setuptools<70" wheel setuptools-rust
+
+echo "Installing critical dependencies..."
+pip install tiktoken --verbose
+# Use --no-build-isolation to use the system packages (rust, etc) we just installed
+pip install openai-whisper==20240930 --no-build-isolation --verbose
+
+echo "Installing remaining requirements via uv..."
 uv pip install -r /git/agent-zero/requirements.txt
 # override for packages that have unnecessarily strict dependencies
 uv pip install -r /git/agent-zero/requirements2.txt

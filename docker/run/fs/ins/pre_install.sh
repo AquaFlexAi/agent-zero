@@ -2,9 +2,11 @@
 set -e
 
 # update apt
-apt-get update
+# fix permissions for cron files if any
+apt-get install -y build-essential python3-dev rustc cargo
 
 # fix permissions for cron files if any
+apt-get install -y build-essential python3-dev
 if [ -f /etc/cron.d/* ]; then
     chmod 0644 /etc/cron.d/*
 fi
