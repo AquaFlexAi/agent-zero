@@ -121,6 +121,11 @@ def requires_loopback(f):
 def requires_auth(f):
     @wraps(f)
     async def decorated(*args, **kwargs):
+        # Check for proxy token bypass
+        proxy_token = os.getenv("AGENT_ZERO_PROXY_TOKEN")
+        if proxy_token and request.headers.get("X-Agent-Zero-Proxy-Token") == proxy_token:
+            return await f(*args, **kwargs)
+
         user_pass_hash = login.get_credentials_hash()
         # If no auth is configured, just proceed
         if not user_pass_hash:

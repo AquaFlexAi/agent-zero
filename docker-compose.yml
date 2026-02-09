@@ -1,0 +1,16 @@
+services:
+  agent-zero:
+    container_name: agent-zero
+    image: flexia/agent-zero:latest
+    build:
+      context: .
+      dockerfile: DockerfileLocal
+      args:
+        BRANCH: local
+    volumes:
+      - .:/a0
+    ports:
+      - "5173:80"
+    env_file:
+      - .env
+    restart: unless-stopped

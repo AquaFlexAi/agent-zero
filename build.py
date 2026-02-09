@@ -20,10 +20,9 @@ def log(msg, level="INFO"):
     }
     # On Windows, color codes might not work in standard cmd, but work in PowerShell/Terminal
     if platform.system() == "Windows":
-        # simple fallback or use colorama if available (but stdlib only requested)
-        pass 
+        os.system('color') 
     
-    print(f"{colors.get(level, '')}[{level}] {msg}{colors['RESET']}")
+    print(f"{colors.get(level, '')}[{level}] {msg}{colors['RESET']}", flush=True)
 
 def check_requirements():
     log("Checking build requirements...", "INFO")
