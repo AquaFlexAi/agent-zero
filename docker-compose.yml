@@ -1,6 +1,6 @@
 services:
   agent-zero:
-    container_name: agent-zero
+    container_name: flexia-agent-zero
     image: flexia/agent-zero:latest
     build:
       context: .
@@ -10,7 +10,16 @@ services:
     volumes:
       - .:/a0
     ports:
-      - "5173:80"
+      - "8081:80"
     env_file:
       - .env
+    environment:
+      - BLOCKCHAIN_RPC_URL=${BLOCKCHAIN_RPC_URL:-http://host.docker.internal:8545}
+      - VAULT_ADDR=${VAULT_ADDR:-http://host.docker.internal:8200}
+    networks:
+      - flexia-network
     restart: unless-stopped
+
+networks:
+  flexia-network:
+    external: true
